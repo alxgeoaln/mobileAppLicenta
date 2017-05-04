@@ -7,16 +7,16 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import {loginUser, signupUser, addAlert} from '../actions';
 
 var Login = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             loading: false
         }
     },
-    onSignIn: function() {
+    onSignIn: function () {
         var {dispatch, fields: {email, password}} = this.props;
         this.setState({
             loading: true
@@ -27,7 +27,7 @@ var Login = React.createClass({
             });
         });
     },
-    onSignUp: function() {
+    onSignUp: function () {
         var {dispatch, fields: {email, password}} = this.props;
         this.setState({
             loading: true
@@ -51,10 +51,13 @@ var Login = React.createClass({
 
         if (this.state.loading) {
             return (
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text>
-                        Loading...
-                    </Text>
+                <View style={{flex: 1}}>
+                    <Spinner
+                        overlayColor="#2ecc71"
+                        visible={this.state.loading}
+                        textContent="Logging in..."
+                        textStyle={{color: 'white'}}
+                    />
                 </View>
             )
         } else {
@@ -69,6 +72,7 @@ var Login = React.createClass({
                         <TextInput
                             {...email}
                             placeholder="Email"
+                            underlineColorAndroid="#fff"
                             style={styles.textInput}/>
                         <View>
                             {renderError(email)}
@@ -78,6 +82,8 @@ var Login = React.createClass({
                         <TextInput
                             {...password}
                             placeholder="Password"
+                            underlineColorAndroid="#fff"
+                            secureTextEntry={true}
                             style={styles.textInput}/>
                         <View>
                             {renderError(password)}
