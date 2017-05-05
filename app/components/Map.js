@@ -19,79 +19,84 @@ class Map extends React.Component {
         }
     };
 
-    watchID: ?number = null;
+    calcDelta(lat, lon) {
+        const latDelta = 0.03;
+        const lonDelta = 0.03;
 
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                var initialPosition = JSON.stringify(position);
-                this.setState({initialPosition});
-            },
-            (error) => alert(JSON.stringify(error)),
-            {enableHighAccuracy: true, timeout: 2000000, maximumAge: 1000}
-        );
-        this.watchID = navigator.geolocation.watchPosition((position) => {
-            var lastPosition = JSON.stringify(position);
-            this.setState({lastPosition});
-        });
+        this.setState({
+            region: {
+                latitude: lat,
+                longitude: lon,
+                latitudeDelta: latDelta,
+                longitudeDelta: lonDelta
+            }
+        })
     }
 
-    componentWillUnmount() {
-        navigator.geolocation.clearWatch(this.watchID);
+    componentWillMount() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            this.calcDelta(lat, lon)
+        })
+    }
+
+    marker(){
+        return{
+            latitude: this.state.region.latitude,
+            longitude: this.state.region.longitude
+        }
     }
 
     render() {
         return (
-            <View>
-                <Text>
-                    <Text style={styles.title}>Initial position: </Text>
-                    {this.state.initialPosition}
-                </Text>
-                <Text>
-                    <Text style={styles.title}>Current position: </Text>
-                    {this.state.lastPosition}
-                </Text>
+            <View style={styles.container}>
+                {this.state.region.latitude ? <MapView
+                    style={styles.map}
+                    inititalRegion={this.state.region}
+                >
+                    <MapView.Marker
+                        coordinate={this.marker()}
+                        title="Im here!"
+                        description="Home"
+                    />
+                </MapView> : null}
             </View>
         );
     }
 }
 
-var styles = StyleSheet.create({
-    title: {
-        fontWeight: '500',
-    },
-});
 
-// const styles = StyleSheet.create({
-//     container: {
-//         position: 'absolute',
-//         top: 0,
-//         left: 0,
-//         right: 0,
-//         bottom: 0,
-//         justifyContent: 'flex-start',
-//         alignItems: 'stretch',
-//     },
-//     map: {
-//         position: 'absolute',
-//         top: 0,
-//         left: 0,
-//         right: 0,
-//         bottom: 0,
-//     },
-//     topBar: {
-//         padding: 16,
-//         paddingTop: 28,
-//         paddingBottom: 8,
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         alignItems: 'center',
-//         backgroundColor: '#2ecc71'
-//     },
-//     title: {
-//         color: 'white',
-//         fontSize: 20
-//     }
-// });
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+    },
+    map: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    topBar: {
+        padding: 16,
+        paddingTop: 28,
+        paddingBottom: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#2ecc71'
+    },
+    title: {
+        color: 'white',
+        fontSize: 20
+    }
+});
 
 module.exports = Map;
