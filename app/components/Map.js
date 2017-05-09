@@ -29,8 +29,8 @@ class Map extends React.Component {
     }
 
     calcDelta(lat, lon) {
-        const latDelta = 0.03;
-        const lonDelta = 0.03;
+        const latDelta = 0.0922;
+        const lonDelta = 0.0421;
 
         this.setState({
             region: {
@@ -68,6 +68,7 @@ class Map extends React.Component {
                 >
                     <MapView.Marker
                         coordinate={this.marker()}
+                        image={require('../img/pin.png')}
                         title="Im here!"
                         description="Home"
                     />

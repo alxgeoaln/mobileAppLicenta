@@ -8,10 +8,21 @@ import {
     ScrollView,
     RefreshControl
 } from 'react-native';
-import {addPhoneNumber, addAlert} from '../actions';
+import {addPhoneNumber,getPhoneNumbers, addAlert} from '../actions';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Octicons';
 import Spinner from 'react-native-loading-spinner-overlay';
+
+var PhoneItem = connect()(React.createClass({
+    render(){
+        return (
+            <View style={styles.todoContainer}>
+                <Text>{this.props.name}</Text>
+                <Text>{this.props.number}</Text>
+            </View>
+        )
+    }
+}));
 
 var PhoneNumberList = React.createClass({
     getInitialState() {
@@ -23,10 +34,10 @@ var PhoneNumberList = React.createClass({
         }
     },
     onRefresh() {
-        //     this.setState({refreshing: true});
-        //     this.props.dispatch(getTodos).then(() => {
-        //         this.setState({refreshing: false});
-        //     })
+            this.setState({refreshing: true});
+            this.props.dispatch(getPhoneNumbers).then(() => {
+                this.setState({refreshing: false});
+            })
     },
     addNewPhoneNumber: function () {
         var {dispatch} = this.props;
@@ -46,13 +57,13 @@ var PhoneNumberList = React.createClass({
         }
     },
     render() {
-        // var renderPhoneNumbers = () => {
-        //     return this.props.phoneNumbers.map((todo) => {
-        //         return (
-        //             <TodoItem key={todo._id} text={todo.text} id={todo._id}/>
-        //         )
-        //     })
-        // }
+        var renderPhoneNumbers = () => {
+            return this.props.phoneNumbers.map((contact) => {
+                return (
+                    <PhoneItem key={contact._id} name={contact.name} number={contact.number} id={contact._id}/>
+                )
+            })
+        };
         if (this.state.loading) {
             return (
                 <View style={{flex: 1}}>
@@ -96,7 +107,7 @@ var PhoneNumberList = React.createClass({
                         }
                         automaticallyAdjustContentInsets={false}
                         contentContainerStyle={styles.scrollViewContainer}>
-                        {/*{renderTodos()}*/}
+                        {renderPhoneNumbers()}
                     </ScrollView>
                 </View>
             );
@@ -137,8 +148,9 @@ const styles = StyleSheet.create({
 
 
 var mapStateToProps = (state) => {
+    console.log(state);
     return {
-        todos: state.todos
+        phoneNumbers: state.phoneNumbers
     }
 };
 

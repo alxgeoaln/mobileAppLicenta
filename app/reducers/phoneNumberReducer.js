@@ -6,9 +6,9 @@ module.exports = (state=[], action) => {
                 action.phoneNumber
             ];
 
-        // case 'SET_TODOS':
-        //     return action.todos;
-        //
+        case 'SET_PHONENUMBERS':
+            return action.phoneNumbers;
+
         // case 'REMOVE_TODO':
         //     return state.filter((todo) => {
         //         if (todo._id === action.todo_id) {

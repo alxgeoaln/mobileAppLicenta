@@ -36,18 +36,18 @@ exports.addPhoneNumber = (number, name) => {
 //     }
 // }
 
-// exports.getTodos = function(dispatch) {
-//     return Keychain.getGenericPassword().then((credentials) => {
-//         var {username, password} = credentials;
-//         return axios.get(TODOS_URL(username), {
-//             headers: {authorization: password}
-//         }).then((response) => {
-//             dispatch(setTodos(response.data.todos));
-//         }).catch((err) => {
-//             dispatch(addAlert("Couldn't get todos."));
-//         })
-//     })
-// }
+exports.getPhoneNumbers = function(dispatch) {
+    return Keychain.getGenericPassword().then((credentials) => {
+        var {username, password} = credentials;
+        return axios.get(PHONES_URL(username), {
+            headers: {authorization: password}
+        }).then((response) => {
+            dispatch(setPhoneNumbers(response.data.phoneNumbers));
+        }).catch((err) => {
+            dispatch(addAlert("Couldn't get todos."));
+        })
+    })
+}
 
 var addPhoneNumber = (phoneNumber) => {
     console.log(phoneNumber)
@@ -55,18 +55,18 @@ var addPhoneNumber = (phoneNumber) => {
         type: 'ADD_PHONENUMBER',
         phoneNumber,
     }
-}
+};
 
 var removeTodo = (todo_id) => {
     return {
         type: 'REMOVE_TODO',
         todo_id
     }
-}
+};
 
-export var setTodos = (todos) => {
+var setPhoneNumbers = (phoneNumbers) => {
     return {
-        type: 'SET_TODOS',
-        todos
+        type: 'SET_PHONENUMBERS',
+        phoneNumbers
     }
-}
+};
