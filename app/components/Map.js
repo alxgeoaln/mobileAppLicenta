@@ -3,12 +3,16 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableHighlight,
+    Dimensions
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Octicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView from 'react-native-maps';
-import {unauthUser} from '../actions';
 
+
+
+var width = Dimensions.get('window').width;
 class Map extends React.Component {
     state = {
         region: {
@@ -18,6 +22,11 @@ class Map extends React.Component {
             longitudeDelta: null
         }
     };
+
+    sendLocation() {
+        var lat = this.state.region.latitude;
+        var lon = this.state.region.longitude;
+    }
 
     calcDelta(lat, lon) {
         const latDelta = 0.03;
@@ -35,18 +44,20 @@ class Map extends React.Component {
 
     componentWillMount() {
         navigator.geolocation.getCurrentPosition((position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            this.calcDelta(lat, lon)
-        })
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                this.calcDelta(lat, lon)
+            }, (error) => alert(JSON.stringify(error)),
+            {enableHighAccuracy: true, timeout: 20000000, maximumAge: 1000})
     }
 
-    marker(){
-        return{
+    marker() {
+        return {
             latitude: this.state.region.latitude,
             longitude: this.state.region.longitude
         }
     }
+
 
     render() {
         return (
@@ -61,6 +72,27 @@ class Map extends React.Component {
                         description="Home"
                     />
                 </MapView> : null}
+                {/*region sendLocationButton*/}
+                <View
+                    style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        bottom: 25,
+                        right: 0,
+                        left: 0
+                    }}>
+                    <TouchableHighlight
+                        onPress={() => this.sendLocation()}
+                        style={styles.buttonContainer}>
+                        <View style={{flexDirection: 'row', marginTop: 7}}>
+                            <Icon name="send" size={20} color="orange"/>
+                            <Text style={{color: 'orange', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Send
+                                Location</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                {/*endregion*/}
             </View>
         );
     }
@@ -96,6 +128,14 @@ const styles = StyleSheet.create({
     title: {
         color: 'white',
         fontSize: 20
+    },
+    buttonContainer: {
+        backgroundColor: '#000',
+        width: width * .9,
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 5
+
     }
 });
 

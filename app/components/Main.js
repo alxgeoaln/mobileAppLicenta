@@ -4,29 +4,138 @@ import {
     Text,
     View,
     TouchableOpacity,
-    NavigatorIOS
 } from 'react-native';
+import {connect} from 'react-redux';
+import NavigationExperimental from 'react-native-deprecated-custom-components';
+import SideMenu from 'react-native-side-menu'
+import Icon from 'react-native-vector-icons/Octicons';
+import {unauthUser} from '../actions';
 
-// import {unauthUser} from '../actions';
-// onLogout: function() {
-//   this.props.dispatch(unauthUser);
-// },
-// <TouchableOpacity onPress={this.onLogout}>
-//   <Text>
-//     Logout
-//   </Text>
-// </TouchableOpacity>
+
 
 import Map from './Map';
+import PhoneNumberList from './PhoneNumberList';
 
 var Main = React.createClass({
+    getInitialState(){
+        return {
+            isOpen: false
+        }
+    },
+    onLogout: function() {
+        this.props.dispatch(unauthUser);
+    },
+    openMenu() {
+        console.log(this.state.isOpen);
+        this.setState({
+            isOpen: true
+        })
+    },
+
+
+    renderScene(route, nav){
+        switch (route.name) {
+            case 'numberList':
+                return (
+                    <PhoneNumberList/>
+                );
+            default:
+                return (
+                    <Map/>
+                )
+        }
+    },
+    numberPage() {
+        this.nav.push({
+            name: 'numberList'
+        });
+        this.setState({
+            isOpen: false
+        });
+    },
+    configureScene() {
+        return NavigationExperimental.Navigator.SceneConfigs.FloatFromRight
+    },
     render() {
+        const MenuComponent = (
+            <View
+                style={{flex: 1, backgroundColor: '#ededed', paddingTop: 62}}
+            >
+                <View style={styles.todoContainer}>
+                    <TouchableOpacity
+                        onPress={this.numberPage}
+                    >
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{fontWeight: "bold", paddingRight: 10}}>Phone numbers</Text>
+                            <Icon name="chevron-right" size={20}/>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
         return (
             <View style={{flex: 1}}>
-                <Map/>
+                <SideMenu
+                    isOpen={this.state.isOpen}
+                    menu={MenuComponent}
+                    menuPosition="right"
+                >
+                    <View style={styles.topBar}>
+                        <TouchableOpacity onPress={this.onLogout}>
+                            <Icon name="x" size={20} color="orange"/>
+                        </TouchableOpacity>
+                        <Text style={styles.title}>
+                            Client
+                        </Text>
+                        <TouchableOpacity onPress={this.openMenu}>
+                            <Icon name="three-bars" size={20} color="orange"/>
+                        </TouchableOpacity>
+                    </View>
+                    <NavigationExperimental.Navigator
+                        configureScene={this.configureScene}
+                        initialRoute={{name: 'map', index: 0}}
+                        ref={((nav) => {
+                            this.nav = nav
+                        })}
+                        renderScene={this.renderScene}
+                    />
+                </SideMenu>
             </View>
         );
     }
 });
 
-module.exports = Main;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+    },
+    topBar: {
+        padding: 16,
+        paddingTop: 28,
+        paddingBottom: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#000'
+    },
+    title: {
+        color: 'orange',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    todoContainer: {
+        padding: 16,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        marginTop: -1,
+        borderColor: '#ccc',
+        flexDirection: 'row',
+
+        // justifyContent: 'flex-start',
+        // alignItems: 'stretch'
+    }
+});
+
+module.exports = connect()(Main);

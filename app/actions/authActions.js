@@ -5,11 +5,11 @@ import {SIGNIN_URL, SIGNUP_URL} from '../api';
 import {addAlert} from './alertsActions';
 
 exports.loginUser = (email, password) => {
-    return function(dispatch) {
+    return function (dispatch) {
         return axios.post(SIGNIN_URL, {email, password}).then((response) => {
             var {user_id, token} = response.data;
             Keychain.setGenericPassword(user_id, token)
-                .then(function() {
+                .then(function () {
                     dispatch(authUser(user_id));
                 }).catch((error) => {
                 dispatch(addAlert("Could not log in."));
@@ -21,11 +21,12 @@ exports.loginUser = (email, password) => {
 }
 
 exports.signupUser = (email, password) => {
-    return function(dispatch) {
+    return function (dispatch) {
         return axios.post(SIGNUP_URL, {email, password}).then((response) => {
             var {user_id, token} = response.data;
+            console.log(response)
             Keychain.setGenericPassword(user_id, token)
-                .then(function() {
+                .then(function () {
                     dispatch(authUser(user_id));
                 }).catch((error) => {
                 console.log(error)

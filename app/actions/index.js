@@ -1,3 +1,3 @@
 export * from './authActions';
 export * from './alertsActions';
-export * from './positionActions';
+export * from './phoneNumberActions';
