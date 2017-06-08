@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Octicons';
 import {unauthUser} from '../actions';
 
 
-
 import Map from './Map';
 import PhoneNumberList from './PhoneNumberList';
 
@@ -22,7 +21,7 @@ var Main = React.createClass({
             isOpen: false
         }
     },
-    onLogout: function() {
+    onLogout: function () {
         this.props.dispatch(unauthUser);
     },
     openMenu() {
@@ -53,6 +52,14 @@ var Main = React.createClass({
             isOpen: false
         });
     },
+    homePage(){
+        this.nav.push({
+            name: 'map'
+        });
+        this.setState({
+            isOpen: false
+        });
+    },
     configureScene() {
         return NavigationExperimental.Navigator.SceneConfigs.FloatFromRight
     },
@@ -63,10 +70,22 @@ var Main = React.createClass({
             >
                 <View style={styles.todoContainer}>
                     <TouchableOpacity
+                        onPress={this.homePage}
+                    >
+                        <View style={{flexDirection: 'row'}}>
+                            <Icon name="home" size={20}/>
+                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Home</Text>
+                            <Icon name="chevron-right" size={20}/>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.todoContainer}>
+                    <TouchableOpacity
                         onPress={this.numberPage}
                     >
                         <View style={{flexDirection: 'row'}}>
-                            <Text style={{fontWeight: "bold", paddingRight: 10}}>Phone numbers</Text>
+                            <Icon name="person" size={20}/>
+                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Contacts</Text>
                             <Icon name="chevron-right" size={20}/>
                         </View>
                     </TouchableOpacity>
@@ -82,7 +101,7 @@ var Main = React.createClass({
                 >
                     <View style={styles.topBar}>
                         <TouchableOpacity onPress={this.onLogout}>
-                            <Icon name="x" size={20} color="orange"/>
+                            <Icon name="sign-out" size={20} color="orange"/>
                         </TouchableOpacity>
                         <Text style={styles.title}>
                             Client

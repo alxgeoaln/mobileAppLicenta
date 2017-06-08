@@ -3,11 +3,13 @@ import {reducer as formReducer} from 'redux-form';
 
 import authReducer from './authReducer';
 import alertsReducer from './alertsReducer';
-import phoneNumberReducer from  './phoneNumberReducer'
+import contactReducer from  './contactReducer'
+import sendLocationReducer from  './sendLocationReducer'
 
 module.exports = combineReducers({
     form: formReducer,
     auth: authReducer,
     alerts: alertsReducer,
-    phoneNumbers: phoneNumberReducer
+    contacts: contactReducer,
+    sendLocationReducer: sendLocationReducer
 });

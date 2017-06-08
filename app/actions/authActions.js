@@ -15,21 +15,20 @@ exports.loginUser = (email, password) => {
                 dispatch(addAlert("Could not log in."));
             });
         }).catch((error) => {
+            console.log(error);
             dispatch(addAlert("Could not log in."));
         });
     }
-}
+};
 
-exports.signupUser = (email, password) => {
+exports.signupUser = (email, password, name) => {
     return function (dispatch) {
-        return axios.post(SIGNUP_URL, {email, password}).then((response) => {
+        return axios.post(SIGNUP_URL, {email, password, name}).then((response) => {
             var {user_id, token} = response.data;
-            console.log(response)
             Keychain.setGenericPassword(user_id, token)
                 .then(function () {
                     dispatch(authUser(user_id));
                 }).catch((error) => {
-                console.log(error)
                 dispatch(addAlert("Could not log in."));
             });
         }).catch((error) => {
@@ -37,15 +36,15 @@ exports.signupUser = (email, password) => {
             dispatch(addAlert("Could not sign up."));
         });
     }
-}
+};
 
 authUser = (user_id) => {
     return {
         type: 'AUTH_USER',
         user_id
     }
-}
+};
 
 exports.unauthUser = {
     type: 'UNAUTH_USER'
-}
+};

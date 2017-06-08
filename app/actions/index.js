@@ -1,3 +1,4 @@
 export * from './authActions';
 export * from './alertsActions';
-export * from './phoneNumberActions';
+export * from './contactActions';
+export * from './sendLocationAction';

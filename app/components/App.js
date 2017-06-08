@@ -11,6 +11,7 @@ import {
 
 import Login from './Login';
 import Main from './Main';
+import MainLogin from './MainLogin';
 
 import AlertContainer from './alerts/AlertContainer';
 
@@ -26,13 +27,16 @@ var App = React.createClass({
                 );
             } else {
                 return (
-                    <Login />
+                    <MainLogin />
                 );
             }
         }
         return (
             <View style={{flex: 1}}>
-                <StatusBar barStyle="light-content"/>
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="black"
+                />
                 {renderMainView()}
                 <AlertContainer/>
             </View>

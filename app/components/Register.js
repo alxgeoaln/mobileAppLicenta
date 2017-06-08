@@ -10,54 +10,26 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {loginUser, signupUser, addAlert} from '../actions';
-import NavigationExperimental from 'react-native-deprecated-custom-components';
-import Register from './Register';
 
-var Login = React.createClass({
+var Register = React.createClass({
     getInitialState: function () {
         return {
             loading: false
         }
     },
-    // renderScene(route, nav){
-    //     switch (route.name) {
-    //         case 'numberList':
-    //             return (
-    //                 <Register/>
-    //             );
-    //         default:
-    //             return (
-    //                 <Login/>
-    //             )
-    //     }
-    // },
-    onSignIn: function () {
-        var {dispatch, fields: {email, password}} = this.props;
+    onSignUp: function () {
+        var {dispatch, fields: {email, password, name}} = this.props;
         this.setState({
             loading: true
         });
-        dispatch(loginUser(email.value, password.value)).then(() => {
+        dispatch(signupUser(email.value, password.value, name.value)).then(() => {
             this.setState({
                 loading: false
             });
         });
     },
-    onSignUp: function () {
-        // var {dispatch, fields: {email, password}} = this.props;
-        // this.setState({
-        //     loading: true
-        // });
-        // dispatch(signupUser(email.value, password.value)).then(() => {
-        //     this.setState({
-        //         loading: false
-        //     });
-        // });
-        this.nav.push({
-            name: 'register'
-        });
-    },
     render() {
-        var {fields: {email, password}} = this.props;
+        var {fields: {email, password, name}} = this.props;
 
         var renderError = (field) => {
             if (field.touched && field.error) {
@@ -83,7 +55,7 @@ var Login = React.createClass({
                 <View style={styles.container}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>
-                            Login
+                            Register
                         </Text>
                     </View>
                     <View style={styles.field}>
@@ -107,25 +79,21 @@ var Login = React.createClass({
                             {renderError(password)}
                         </View>
                     </View>
-                    {/*<View style={styles.buttonContainer}>*/}
-                    {/*<TouchableOpacity onPress={this.onSignIn}>*/}
-                    {/*<Text style={styles.button}>*/}
-                    {/*Sign In*/}
-                    {/*</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*<TouchableOpacity onPress={this.onSignUp}>*/}
-                    {/*<Text style={styles.button}>*/}
-                    {/*Sign Up*/}
-                    {/*</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
+                    <View style={styles.field}>
+                        <TextInput
+                            {...name}
+                            placeholder="Name"
+                            underlineColorAndroid="#fff"
+                            style={styles.textInput}/>
+                        <View>
+                            {renderError(name)}
+                        </View>
+                    </View>
                     <View style={styles.buttonContainer}>
                         <TouchableHighlight
-                            onPress={() => this.onSignIn()}
-                            style={{
-                                borderColor: 'green', borderWidth: 2,
-                                borderRadius: 10, width: 100, height: 45, backgroundColor: 'green'
-                            }}>
+                            onPress={() => this.onSignUp()}
+                            style={{borderColor: 'green', borderWidth: 2,
+                            borderRadius:10, width: 100, height: 45, backgroundColor: 'green'}}>
                             <Text style={{fontSize: 25, textAlign: 'center', color: '#fff'}}>Submit</Text>
                         </TouchableHighlight>
                     </View>
@@ -187,11 +155,14 @@ var validate = (formProps) => {
     if (!formProps.password) {
         errors.password = "Please enter a password.";
     }
+    if (!formProps.name) {
+        errors.password = "Please enter a name.";
+    }
     return errors;
 }
 
 module.exports = reduxForm({
     form: 'login',
-    fields: ['email', 'password'],
+    fields: ['email', 'password', 'name'],
     validate: validate
-}, null, null)(Login);
+}, null, null)(Register);

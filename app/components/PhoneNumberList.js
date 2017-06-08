@@ -5,62 +5,86 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    Alert,
     ScrollView,
     RefreshControl
 } from 'react-native';
-import {addPhoneNumber,getPhoneNumbers, addAlert} from '../actions';
+import {addContact, getContactData, deleteContact, addAlert} from '../actions';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Octicons';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-var PhoneItem = connect()(React.createClass({
+var ContactItem = connect()(React.createClass({
+    onDelete: function () {
+        this.props.dispatch(deleteContact(this.props.id));
+    },
     render(){
         return (
             <View style={styles.todoContainer}>
-                <Text>{this.props.name}</Text>
-                <Text>{this.props.number}</Text>
+
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <View style={{flex: 1}}>
+                        <Text>{this.props.name}</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                        <Text style={{position: 'absolute'}}>{this.props.email}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => Alert.alert(
+                        'Delete contact',
+                        'Are you sure you want to delete this contact?',
+                        [
+                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                            {text: 'OK', onPress: this.onDelete},
+                        ]
+                    )}>
+                        <Icon name="x" size={15} color='red'/>
+                    </TouchableOpacity>
+                </View>
+
             </View>
         )
     }
 }));
 
-var PhoneNumberList = React.createClass({
+var ContactList = React.createClass({
     getInitialState() {
         return {
-            phoneNumber: undefined,
+            email: undefined,
             name: undefined,
             loading: false,
             refreshing: false
         }
     },
     onRefresh() {
-            this.setState({refreshing: true});
-            this.props.dispatch(getPhoneNumbers).then(() => {
-                this.setState({refreshing: false});
-            })
+        this.setState({refreshing: true});
+        this.props.dispatch(getContactData).then(() => {
+            this.setState({refreshing: false});
+        })
     },
-    addNewPhoneNumber: function () {
+    addNewContact: function () {
         var {dispatch} = this.props;
-        var phoneNumber = this.state.phoneNumber;
+        var email = this.state.email;
         var name = this.state.name;
-        if (phoneNumber && phoneNumber != "" && name && name != "") {
+        if (email && email != "" && name && name != "") {
             this.setState({
                 loading: true
             });
-            dispatch(addPhoneNumber(phoneNumber, name)).then(() => {
+            dispatch(addContact(email, name)).then(() => {
                 this.setState({
+                    email: '',
+                    name: '',
                     loading: false
                 });
             });
         } else {
-            dispatch(addAlert("You must enter a valid number and name."))
+            dispatch(addAlert("You must enter a valid email and name."))
         }
     },
+
     render() {
-        var renderPhoneNumbers = () => {
-            return this.props.phoneNumbers.map((contact) => {
+        var renderContacts = () => {
+            return this.props.contacts.map((contact) => {
                 return (
-                    <PhoneItem key={contact._id} name={contact.name} number={contact.number} id={contact._id}/>
+                    <ContactItem key={contact._id} name={contact.name} email={contact.email} id={contact._id}/>
                 )
             })
         };
@@ -70,7 +94,7 @@ var PhoneNumberList = React.createClass({
                     <Spinner
                         overlayColor="#2ecc71"
                         visible={this.state.loading}
-                        textContent="Posting your phone number..."
+                        textContent="Posting your contact..."
                         textStyle={{color: 'white'}}
                     />
                 </View>
@@ -80,12 +104,12 @@ var PhoneNumberList = React.createClass({
                 <View style={styles.container}>
                     <View style={styles.inputContainer}>
                         <TextInput
-                            onChangeText={(phoneNumber) => this.setState({phoneNumber: phoneNumber})}
+                            onChangeText={(email) => this.setState({email: email})}
                             ref={(el) => {
-                                this.phoneNumber = el;
+                                this.email = el;
                             }}
-                            value={this.state.phoneNumber}
-                            placeholder="Phone Number"
+                            value={this.state.email}
+                            placeholder="Email"
                             style={styles.input}/>
                         <TextInput
                             onChangeText={(name) => this.setState({name: name})}
@@ -95,8 +119,9 @@ var PhoneNumberList = React.createClass({
                             value={this.state.name}
                             placeholder="Name"
                             style={styles.input}/>
-                        <TouchableOpacity onPress={this.addNewPhoneNumber}>
-                            <Text>Add Phone Number</Text>
+                        <TouchableOpacity onPress={this.addNewContact}>
+                            <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>Add
+                                Email</Text>
                         </TouchableOpacity>
                     </View>
                     <ScrollView
@@ -107,7 +132,7 @@ var PhoneNumberList = React.createClass({
                         }
                         automaticallyAdjustContentInsets={false}
                         contentContainerStyle={styles.scrollViewContainer}>
-                        {renderPhoneNumbers()}
+                        {renderContacts()}
                     </ScrollView>
                 </View>
             );
@@ -137,7 +162,7 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingLeft: 10,
         margin: 10,
-        borderWidth: 2,
+        borderWidth: 5,
         borderRadius: 10,
         borderColor: "orange"
     },
@@ -150,8 +175,8 @@ const styles = StyleSheet.create({
 var mapStateToProps = (state) => {
     console.log(state);
     return {
-        phoneNumbers: state.phoneNumbers
+        contacts: state.contacts
     }
 };
 
-module.exports = connect(mapStateToProps)(PhoneNumberList);
+module.exports = connect(mapStateToProps)(ContactList);

@@ -46,6 +46,7 @@
 		94B473BFC198494F89962A2F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A26736F02164FE9B6B95394 /* MaterialIcons.ttf */; };
 		FCDA0A3391844D819B587481 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EDE721A2B10464CA7A8F67D /* Octicons.ttf */; };
 		B132973D920A45FD965D23DA /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBE1498D0CAC498584310681 /* Zocial.ttf */; };
+		095AABB184FF49498B87C043 /* libRNGeocoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFF6E8BCD34496891814DE4 /* libRNGeocoder.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,6 +280,8 @@
 		9A26736F02164FE9B6B95394 /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7EDE721A2B10464CA7A8F67D /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		CBE1498D0CAC498584310681 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A90A2FB7BCD2481EA468A80B /* RNGeocoder.xcodeproj */ = {isa = PBXFileReference; name = "RNGeocoder.xcodeproj"; path = "../node_modules/react-native-geocoder/ios/RNGeocoder.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		0CFF6E8BCD34496891814DE4 /* libRNGeocoder.a */ = {isa = PBXFileReference; name = "libRNGeocoder.a"; path = "libRNGeocoder.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +311,7 @@
 				1A37614CA8E04CE2AAD6EE84 /* libRNKeychain.a in Frameworks */,
 				7D1EDA0A54194C159E47A6F3 /* libRNVectorIcons.a in Frameworks */,
 				39BB0E4C342B4056977C63A6 /* libAirMaps.a in Frameworks */,
+				095AABB184FF49498B87C043 /* libRNGeocoder.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +481,7 @@
 				C7FEAB68CFCC4136A21C3DE4 /* RNKeychain.xcodeproj */,
 				3DCD719C4E4E4F469D0DDE34 /* RNVectorIcons.xcodeproj */,
 				D089E59B089C4EE0BF148109 /* AirMaps.xcodeproj */,
+				A90A2FB7BCD2481EA468A80B /* RNGeocoder.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1032,12 +1037,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Debug;
@@ -1061,12 +1068,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Release;
@@ -1091,6 +1100,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Debug;
@@ -1114,6 +1124,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Release;
@@ -1146,12 +1157,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Debug;
@@ -1184,12 +1197,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-maps\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-geocoder\ios\RNGeocoder",
 				);
 			};
 			name = Release;
@@ -1217,6 +1232,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1241,6 +1257,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
