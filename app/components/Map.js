@@ -44,7 +44,8 @@ class Map extends React.Component {
             latitudeDelta: null,
             longitudeDelta: null
         },
-        loading: false
+        loading: false,
+        speed: null
     };
 
 
@@ -95,6 +96,21 @@ class Map extends React.Component {
                 this.calcDelta(lat, lon)
             }, (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 2000000000, maximumAge: 100000})
+    }
+
+    componentDidMount(){
+        this.watchId = navigator.geolocation.watchPosition(
+            (position) => {
+                console.log(position.coords.speed);
+                this.setState({
+                    speed: position.coords.speed
+                })
+            }
+        )
+    }
+
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchId);
     }
 
 
@@ -174,8 +190,8 @@ class Map extends React.Component {
                             style={styles.buttonContainer}>
                             <View style={{flexDirection: 'row', marginTop: 7}}>
                                 <Icon name="send" size={20} color="orange"/>
-                                <Text style={{color: 'orange', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Send
-                                    Location</Text>
+                                <Text style={{color: 'orange', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>{this.state.speed}
+                                    </Text>
                             </View>
                         </TouchableHighlight>
                     </View>
