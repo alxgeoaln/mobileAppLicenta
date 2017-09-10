@@ -44,7 +44,8 @@ class Map extends React.Component {
             latitudeDelta: null,
             longitudeDelta: null
         },
-        loading: false
+        loading: false,
+        speed: null
     };
 
 
@@ -95,6 +96,21 @@ class Map extends React.Component {
                 this.calcDelta(lat, lon)
             }, (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 2000000000, maximumAge: 100000})
+    }
+
+    componentDidMount(){
+        this.watchId = navigator.geolocation.watchPosition(
+            (position) => {
+                console.log(position.coords.speed);
+                this.setState({
+                    speed: position.coords.speed
+                })
+            }
+        )
+    }
+
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchId);
     }
 
 
