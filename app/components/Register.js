@@ -43,9 +43,9 @@ var Register = React.createClass({
             return (
                 <View style={{flex: 1}}>
                     <Spinner
-                        overlayColor="#2ecc71"
+                        overlayColor="#3E474F"
                         visible={this.state.loading}
-                        textContent="Logging in..."
+                        textContent="Inregistrare..."
                         textStyle={{color: 'white'}}
                     />
                 </View>
@@ -55,7 +55,7 @@ var Register = React.createClass({
                 <View style={styles.container}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>
-                            Register
+                            Inregistrare
                         </Text>
                     </View>
                     <View style={styles.field}>
@@ -71,7 +71,7 @@ var Register = React.createClass({
                     <View style={styles.field}>
                         <TextInput
                             {...password}
-                            placeholder="Password"
+                            placeholder="Parola"
                             underlineColorAndroid="#fff"
                             secureTextEntry={true}
                             style={styles.textInput}/>
@@ -82,7 +82,7 @@ var Register = React.createClass({
                     <View style={styles.field}>
                         <TextInput
                             {...name}
-                            placeholder="Name"
+                            placeholder="Nume"
                             underlineColorAndroid="#fff"
                             style={styles.textInput}/>
                         <View>
@@ -92,9 +92,9 @@ var Register = React.createClass({
                     <View style={styles.buttonContainer}>
                         <TouchableHighlight
                             onPress={() => this.onSignUp()}
-                            style={{borderColor: 'green', borderWidth: 2,
-                            borderRadius:10, width: 100, height: 45, backgroundColor: 'green'}}>
-                            <Text style={{fontSize: 25, textAlign: 'center', color: '#fff'}}>Submit</Text>
+                            style={{borderColor: '#3AC162', borderWidth: 2,
+                            borderRadius:10, width: 150, height: 35, backgroundColor: '#3AC162'}}>
+                            <Text style={{fontSize: 20, textAlign: 'center', color: '#fff'}}>Inregistrare</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         paddingTop: 20,
-        backgroundColor: '#2ecc71'
+        backgroundColor: '#3E474F'
     },
     titleContainer: {
         padding: 10
@@ -150,16 +150,16 @@ const styles = StyleSheet.create({
 var validate = (formProps) => {
     var errors = {};
     if (!formProps.email) {
-        errors.email = "Please enter an email.";
+        errors.email = "Va rog introduceti o adresa de email.";
     }
     if (!formProps.password) {
-        errors.password = "Please enter a password.";
+        errors.password = "Va rog introduceti o parola.";
     }
     if (!formProps.name) {
-        errors.password = "Please enter a name.";
+        errors.password = "Va rog introduceti un nume.";
     }
     return errors;
-}
+};
 
 module.exports = reduxForm({
     form: 'login',

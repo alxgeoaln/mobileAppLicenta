@@ -4,15 +4,14 @@ import Keychain from 'react-native-keychain';
 import {SENDMAIL_URL} from '../api';
 import {addAlert} from './alertsActions';
 
-exports.sendLocation = (lat, lon, address) => {
+exports.sendLocation = (lat, lon, address, dateTime) => {
 
     return function (dispatch) {
         return Keychain.getGenericPassword().then((credentials) => {
             var {username, password} = credentials;
-            return axios.post(SENDMAIL_URL(username), {lat, lon, address}, {
+            return axios.post(SENDMAIL_URL(username), {lat, lon, address, dateTime}, {
                 headers: {authorization: password}
             }).then((response) => {
-                console.log(response)
                 const message = 'Successfully send';
                 dispatch(sendMail(message));
             }).catch((err) => {

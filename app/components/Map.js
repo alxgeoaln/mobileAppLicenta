@@ -51,7 +51,8 @@ class Map extends React.Component {
     sendLocation() {
         const lat = this.state.region.latitude;
         const lon = this.state.region.longitude;
-        const NY = {
+        const dateTime = new Date();
+        const location = {
             lat: this.state.region.latitude,
             lng: this.state.region.longitude
         };
@@ -60,14 +61,13 @@ class Map extends React.Component {
         this.setState({
             loading: true
         });
-        Geocoder.geocodePosition(NY).then(res => {
+        Geocoder.geocodePosition(location).then(res => {
             const address = res[0].formattedAddress;
-            dispatch(sendLocation(lat, lon, address)).then(() => {
+            dispatch(sendLocation(lat, lon, address, dateTime)).then(() => {
                 this.setState({
                     loading: false
                 });
             });
-            console.log(address)
         })
             .catch(err => console.log(err))
 
@@ -85,7 +85,7 @@ class Map extends React.Component {
                 latitudeDelta: latDelta,
                 longitudeDelta: lonDelta
             }
-        })
+        });
     }
 
     componentWillMount() {
@@ -98,21 +98,8 @@ class Map extends React.Component {
     }
 
 
-    marker() {
-        return {
-            latitude: this.state.region.latitude,
-            longitude: this.state.region.longitude
-        }
-    }
 
-    markerHostipal() {
-        return {
-            latitude: 44.443261,
-            longitude: 26.074390
-        }
-    }
-
-    gogogo(coords) {
+    goToNavigation(coords) {
         Linking.openURL('http://maps.google.com/maps?daddr=' + coords.latitude + ',' + coords.longitude);
     }
 
@@ -124,7 +111,7 @@ class Map extends React.Component {
                     <Spinner
                         overlayColor="#2ecc71"
                         visible={this.state.loading}
-                        textContent="Sending location..."
+                        textContent="Se trimite locatia..."
                         textStyle={{color: 'white'}}
                     />
                 </View>
@@ -137,12 +124,6 @@ class Map extends React.Component {
                         initialRegion={this.state.region}
                         showsUserLocation={true}
                     >
-                        {/*<MapView.Marker*/}
-                        {/*coordinate={this.marker()}*/}
-                        {/*image={require('../img/placeholder.png')}*/}
-                        {/*title="Im here!"*/}
-                        {/*description="My current location"*/}
-                        {/*/>*/}
                         {
                             hospitals.map((l, k) => {
                                 return (
@@ -151,15 +132,16 @@ class Map extends React.Component {
                                         coordinate={l.coords}
                                         image={require('../img/hospitalPin.png')}
                                         title={l.name}
-                                        onPress={() => this.gogogo(l.coords)}
+                                        onPress={() => this.goToNavigation(l.coords)}
                                     />
                                 )
 
                             })
                         }
 
-                    </MapView> : <Text style={{flex: 1, backgroundColor: "white"}}>Map is loading...</Text>}
+                    </MapView> : <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: "#3E474F"}}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
                     {/*region sendLocationButton*/}
+                    {this.state.region.latitude ?
                     <View
                         style={{
                             flexDirection: 'column',
@@ -173,12 +155,11 @@ class Map extends React.Component {
                             onPress={() => this.sendLocation()}
                             style={styles.buttonContainer}>
                             <View style={{flexDirection: 'row', marginTop: 7}}>
-                                <Icon name="send" size={20} color="orange"/>
-                                <Text style={{color: 'orange', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Send
-                                    Location</Text>
+                                <Icon name="send" size={20} color="#3AC162"/>
+                                <Text style={{color: '#3AC162', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Trimite locatia</Text>
                             </View>
                         </TouchableHighlight>
-                    </View>
+                    </View> : <View></View>}
                     {/*endregion*/}
                 </View>
             );
@@ -218,7 +199,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     buttonContainer: {
-        backgroundColor: '#000',
+        backgroundColor: '#3E474F',
         width: width * .9,
         height: 40,
         alignItems: 'center',

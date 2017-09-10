@@ -12,11 +12,11 @@ exports.loginUser = (email, password) => {
                 .then(function () {
                     dispatch(authUser(user_id));
                 }).catch((error) => {
-                dispatch(addAlert("Could not log in."));
+                dispatch(addAlert("Verificati daca datele sunt corecte sau daca datele mobile sunt activate."));
             });
         }).catch((error) => {
             console.log(error);
-            dispatch(addAlert("Could not log in."));
+            dispatch(addAlert("Verificati daca datele sunt corecte sau daca datele mobile sunt activate."));
         });
     }
 };

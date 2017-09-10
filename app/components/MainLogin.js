@@ -49,12 +49,12 @@ var MainLogin = React.createClass({
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={this.loginPage}>
                         <Text style={styles.button}>
-                            Sign In
+                            Autentificare
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.registerPage}>
                         <Text style={styles.button}>
-                            Sign Up
+                            Inregistrare
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#2ecc71'
+        backgroundColor: '#3E474F'
     },
     button: {
         fontSize: 25,

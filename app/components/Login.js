@@ -19,18 +19,6 @@ var Login = React.createClass({
             loading: false
         }
     },
-    // renderScene(route, nav){
-    //     switch (route.name) {
-    //         case 'numberList':
-    //             return (
-    //                 <Register/>
-    //             );
-    //         default:
-    //             return (
-    //                 <Login/>
-    //             )
-    //     }
-    // },
     onSignIn: function () {
         var {dispatch, fields: {email, password}} = this.props;
         this.setState({
@@ -43,15 +31,6 @@ var Login = React.createClass({
         });
     },
     onSignUp: function () {
-        // var {dispatch, fields: {email, password}} = this.props;
-        // this.setState({
-        //     loading: true
-        // });
-        // dispatch(signupUser(email.value, password.value)).then(() => {
-        //     this.setState({
-        //         loading: false
-        //     });
-        // });
         this.nav.push({
             name: 'register'
         });
@@ -71,10 +50,10 @@ var Login = React.createClass({
             return (
                 <View style={{flex: 1}}>
                     <Spinner
-                        overlayColor="#2ecc71"
+                        overlayColor="#3E474F"
                         visible={this.state.loading}
-                        textContent="Logging in..."
-                        textStyle={{color: 'white'}}
+                        textContent="Autentificare..."
+                        textStyle={{color: '#fff'}}
                     />
                 </View>
             )
@@ -83,7 +62,7 @@ var Login = React.createClass({
                 <View style={styles.container}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>
-                            Login
+                            Autentificare
                         </Text>
                     </View>
                     <View style={styles.field}>
@@ -99,7 +78,7 @@ var Login = React.createClass({
                     <View style={styles.field}>
                         <TextInput
                             {...password}
-                            placeholder="Password"
+                            placeholder="Parola"
                             underlineColorAndroid="#fff"
                             secureTextEntry={true}
                             style={styles.textInput}/>
@@ -107,26 +86,14 @@ var Login = React.createClass({
                             {renderError(password)}
                         </View>
                     </View>
-                    {/*<View style={styles.buttonContainer}>*/}
-                    {/*<TouchableOpacity onPress={this.onSignIn}>*/}
-                    {/*<Text style={styles.button}>*/}
-                    {/*Sign In*/}
-                    {/*</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*<TouchableOpacity onPress={this.onSignUp}>*/}
-                    {/*<Text style={styles.button}>*/}
-                    {/*Sign Up*/}
-                    {/*</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
                     <View style={styles.buttonContainer}>
                         <TouchableHighlight
                             onPress={() => this.onSignIn()}
                             style={{
-                                borderColor: 'green', borderWidth: 2,
-                                borderRadius: 10, width: 100, height: 45, backgroundColor: 'green'
+                                borderColor: '#3AC162', borderWidth: 2,
+                                borderRadius: 10, width: 150, height: 35, backgroundColor: '#3AC162'
                             }}>
-                            <Text style={{fontSize: 25, textAlign: 'center', color: '#fff'}}>Submit</Text>
+                            <Text style={{fontSize: 20, textAlign: 'center', color: '#fff'}}>Autentificare</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -142,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         paddingTop: 20,
-        backgroundColor: '#2ecc71'
+        backgroundColor: '#3E474F'
     },
     titleContainer: {
         padding: 10
@@ -172,7 +139,7 @@ const styles = StyleSheet.create({
     },
     button: {
         fontSize: 30,
-        color: 'white'
+        color: '#3AC162'
     },
     formError: {
         color: 'red'
@@ -182,13 +149,13 @@ const styles = StyleSheet.create({
 var validate = (formProps) => {
     var errors = {};
     if (!formProps.email) {
-        errors.email = "Please enter an email.";
+        errors.email = "Va rog introduceti un email.";
     }
     if (!formProps.password) {
-        errors.password = "Please enter a password.";
+        errors.password = "Va rog introduceti o parola.";
     }
     return errors;
-}
+};
 
 module.exports = reduxForm({
     form: 'login',

@@ -35,7 +35,7 @@ var App = React.createClass({
             <View style={{flex: 1}}>
                 <StatusBar
                     barStyle="light-content"
-                    backgroundColor="black"
+                    backgroundColor="#3E474F"
                 />
                 {renderMainView()}
                 <AlertContainer/>

@@ -29,10 +29,10 @@ var ContactItem = connect()(React.createClass({
                         <Text style={{position: 'absolute'}}>{this.props.email}</Text>
                     </View>
                     <TouchableOpacity onPress={() => Alert.alert(
-                        'Delete contact',
-                        'Are you sure you want to delete this contact?',
+                        'Sterge Contact',
+                        'Sunteti sigur ca vreti sa stergeti acest contact?',
                         [
-                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                            {text: 'Inchide', onPress: () => console.log('Cancel Pressed!')},
                             {text: 'OK', onPress: this.onDelete},
                         ]
                     )}>
@@ -76,7 +76,7 @@ var ContactList = React.createClass({
                 });
             });
         } else {
-            dispatch(addAlert("You must enter a valid email and name."))
+            dispatch(addAlert("Trebuie sa introduceti un nume si email valid."))
         }
     },
 
@@ -94,7 +94,7 @@ var ContactList = React.createClass({
                     <Spinner
                         overlayColor="#2ecc71"
                         visible={this.state.loading}
-                        textContent="Posting your contact..."
+                        textContent="Contactul se posteaza..."
                         textStyle={{color: 'white'}}
                     />
                 </View>
@@ -117,11 +117,10 @@ var ContactList = React.createClass({
                                 this.name = el;
                             }}
                             value={this.state.name}
-                            placeholder="Name"
+                            placeholder="Nume"
                             style={styles.input}/>
                         <TouchableOpacity onPress={this.addNewContact}>
-                            <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>Add
-                                Email</Text>
+                            <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>Adauga Email</Text>
                         </TouchableOpacity>
                     </View>
                     <ScrollView
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
         margin: 10,
         borderWidth: 5,
         borderRadius: 10,
-        borderColor: "orange"
+        borderColor: "#3AC162"
     },
     input: {
         height: 40

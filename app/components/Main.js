@@ -74,7 +74,7 @@ var Main = React.createClass({
                     >
                         <View style={{flexDirection: 'row'}}>
                             <Icon name="home" size={20}/>
-                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Home</Text>
+                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Acasa</Text>
                             <Icon name="chevron-right" size={20}/>
                         </View>
                     </TouchableOpacity>
@@ -85,7 +85,7 @@ var Main = React.createClass({
                     >
                         <View style={{flexDirection: 'row'}}>
                             <Icon name="person" size={20}/>
-                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Contacts</Text>
+                            <Text style={{fontWeight: "bold", paddingRight: 10, paddingLeft: 10}}>Contacte</Text>
                             <Icon name="chevron-right" size={20}/>
                         </View>
                     </TouchableOpacity>
@@ -101,13 +101,13 @@ var Main = React.createClass({
                 >
                     <View style={styles.topBar}>
                         <TouchableOpacity onPress={this.onLogout}>
-                            <Icon name="sign-out" size={20} color="orange"/>
+                            <Icon name="sign-out" size={20} color="#3AC162"/>
                         </TouchableOpacity>
                         <Text style={styles.title}>
-                            Client
+                            Licenta 2017
                         </Text>
                         <TouchableOpacity onPress={this.openMenu}>
-                            <Icon name="three-bars" size={20} color="orange"/>
+                            <Icon name="three-bars" size={20} color="#3AC162"/>
                         </TouchableOpacity>
                     </View>
                     <NavigationExperimental.Navigator
@@ -137,10 +137,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#000'
+        backgroundColor: '#3E474F'
     },
     title: {
-        color: 'orange',
+        color: '#3AC162',
         fontSize: 20,
         fontWeight: 'bold'
     },
@@ -150,10 +150,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginTop: -1,
         borderColor: '#ccc',
-        flexDirection: 'row',
-
-        // justifyContent: 'flex-start',
-        // alignItems: 'stretch'
+        flexDirection: 'row'
     }
 });
 
