@@ -283,12 +283,11 @@ class Map extends React.Component {
             {enableHighAccuracy: true, timeout: 2000000000, maximumAge: 100000})
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.watchId = navigator.geolocation.watchPosition(
             (position) => {
-                console.log(position.coords.speed);
                 this.setState({
-                    speed: position.coords.speed
+                    speed: (position.coords.speed * 3600)/1000
                 })
             }
         )
@@ -297,7 +296,6 @@ class Map extends React.Component {
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchId);
     }
-
 
 
     goToNavigation(coords) {
@@ -341,27 +339,38 @@ class Map extends React.Component {
                             })
                         }
 
-                    </MapView> : <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2F3131"}}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
+                    </MapView> : <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: "#2F3131"
+                    }}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
                     {/*region sendLocationButton*/}
                     {this.state.region.latitude ?
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            position: 'absolute',
-                            bottom: 25,
-                            right: 0,
-                            left: 0
-                        }}>
-                        <TouchableHighlight
-                            onPress={() => this.sendLocation()}
-                            style={styles.buttonContainer}>
-                            <View style={{flexDirection: 'row', marginTop: 7}}>
-                                <Icon name="send" size={20} color="#F9BA32"/>
-                                <Text style={{color: '#F9BA32', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Trimite locatia</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View> : <View></View>}
+                        <View
+                            style={{
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                position: 'absolute',
+                                bottom: 25,
+                                right: 0,
+                                left: 0
+                            }}>
+                            <TouchableHighlight
+                                onPress={() => this.sendLocation()}
+                                style={styles.buttonContainer}>
+                                <View style={{flexDirection: 'row', marginTop: 7}}>
+                                    <Icon name="send" size={20} color="#F9BA32"/>
+                                    <Text style={{
+                                        color: '#F9BA32',
+                                        marginLeft: 10,
+                                        fontSize: 20,
+                                        fontWeight: 'bold'
+                                    }}>{this.state.speed}</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View> : <View></View>}
                     {/*endregion*/}
                 </View>
             );
