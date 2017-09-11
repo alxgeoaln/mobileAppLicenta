@@ -15,6 +15,191 @@ import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {sendLocation} from '../actions';
 
+const mapStyle = [
+    {
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            }
+        ]
+    },
+    {
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#616161"
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.land_parcel",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#bdbdbd"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#eeeeee"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#757575"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "color": "#ffeb3b"
+            },
+            {
+                "weight": 6
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "color": "#ffeb3b"
+            },
+            {
+                "weight": 6
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e5e5e5"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#9e9e9e"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#757575"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#dadada"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#616161"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#9e9e9e"
+            }
+        ]
+    },
+    {
+        "featureType": "transit.line",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e5e5e5"
+            }
+        ]
+    },
+    {
+        "featureType": "transit.station",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#eeeeee"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c9c9c9"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#9e9e9e"
+            }
+        ]
+    }
+]
+
 const hospitals = [
     {
         name: "Spitalul Universitar de Urgență Elias",
@@ -136,6 +321,7 @@ class Map extends React.Component {
             return (
                 <View style={styles.container}>
                     {this.state.region.latitude ? <MapView
+                        customMapStyle={mapStyle}
                         style={styles.map}
                         initialRegion={this.state.region}
                         showsUserLocation={true}
@@ -155,7 +341,7 @@ class Map extends React.Component {
                             })
                         }
 
-                    </MapView> : <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: "#3E474F"}}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
+                    </MapView> : <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2F3131"}}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
                     {/*region sendLocationButton*/}
                     {this.state.region.latitude ?
                     <View
@@ -171,8 +357,8 @@ class Map extends React.Component {
                             onPress={() => this.sendLocation()}
                             style={styles.buttonContainer}>
                             <View style={{flexDirection: 'row', marginTop: 7}}>
-                                <Icon name="send" size={20} color="#3AC162"/>
-                                <Text style={{color: '#3AC162', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Trimite locatia</Text>
+                                <Icon name="send" size={20} color="#F9BA32"/>
+                                <Text style={{color: '#F9BA32', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Trimite locatia</Text>
                             </View>
                         </TouchableHighlight>
                     </View> : <View></View>}
@@ -201,21 +387,12 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
     },
-    topBar: {
-        padding: 16,
-        paddingTop: 28,
-        paddingBottom: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#2ecc71'
-    },
     title: {
         color: 'white',
         fontSize: 20
     },
     buttonContainer: {
-        backgroundColor: '#3E474F',
+        backgroundColor: '#2F3131',
         width: width * .9,
         height: 40,
         alignItems: 'center',

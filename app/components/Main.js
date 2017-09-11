@@ -101,13 +101,13 @@ var Main = React.createClass({
                 >
                     <View style={styles.topBar}>
                         <TouchableOpacity onPress={this.onLogout}>
-                            <Icon name="sign-out" size={20} color="#3AC162"/>
+                            <Icon name="sign-out" size={20} color="#426E86"/>
                         </TouchableOpacity>
                         <Text style={styles.title}>
-                            Licenta 2017
+                            AlertApp
                         </Text>
                         <TouchableOpacity onPress={this.openMenu}>
-                            <Icon name="three-bars" size={20} color="#3AC162"/>
+                            <Icon name="three-bars" size={20} color="#426E86"/>
                         </TouchableOpacity>
                     </View>
                     <NavigationExperimental.Navigator
@@ -137,10 +137,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#3E474F'
+        backgroundColor: '#2F3131'
     },
     title: {
-        color: '#3AC162',
+        color: '#426E86',
         fontSize: 20,
         fontWeight: 'bold'
     },
