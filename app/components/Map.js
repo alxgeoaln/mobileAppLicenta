@@ -230,7 +230,9 @@ class Map extends React.Component {
             longitudeDelta: null
         },
         loading: false,
-        speed: null
+        speed: null,
+        speed_h: null,
+        maxSpeed: null
     };
 
 
@@ -259,7 +261,6 @@ class Map extends React.Component {
 
     }
 
-
     calcDelta(lat, lon) {
         const latDelta = 0.0922;
         const lonDelta = 0.0421;
@@ -274,30 +275,41 @@ class Map extends React.Component {
         });
     }
 
-    componentWillMount() {
-        navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                this.calcDelta(lat, lon)
-            }, (error) => alert(JSON.stringify(error)),
-            {enableHighAccuracy: true, timeout: 2000000000, maximumAge: 100000})
+    accident(speed_h) {
+        if (this.state.speed_h < speed_h) {
+            this.setState({
+                maxSpeed: speed_h
+            });
+        }
+
+        const speedDiff = this.state.maxSpeed - this.state.speed_h;
+
+        if (speedDiff === this.state.maxSpeed) {
+            this.sendLocation();
+        }
     }
 
-    componentDidMount(){
+
+    componentDidMount() {
         this.watchId = navigator.geolocation.watchPosition(
             (position) => {
-                console.log(position.coords.speed);
+                console.log(position);
                 this.setState({
-                    speed: position.coords.speed
-                })
-            }
-        )
+                    speed: position.coords.speed,
+                    speed_h: position.coords.speed * 3600 / 1000,
+
+                });
+                this.calcDelta(position.coords.latitude, position.coords.longitude);
+                this.accident(position.coords.speed * 3600 / 1000)
+            },
+            (error) => this.setState({error: error.message}),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10},
+        );
     }
 
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchId);
     }
-
 
 
     goToNavigation(coords) {
@@ -341,27 +353,33 @@ class Map extends React.Component {
                             })
                         }
 
-                    </MapView> : <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2F3131"}}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
+                    </MapView> : <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: "#2F3131"
+                    }}><Text style={{color: '#fff', fontSize: 30}}>Harta se incarca...</Text></View>}
                     {/*region sendLocationButton*/}
                     {this.state.region.latitude ?
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            position: 'absolute',
-                            bottom: 25,
-                            right: 0,
-                            left: 0
-                        }}>
-                        <TouchableHighlight
-                            onPress={() => this.sendLocation()}
-                            style={styles.buttonContainer}>
-                            <View style={{flexDirection: 'row', marginTop: 7}}>
-                                <Icon name="send" size={20} color="#F9BA32"/>
-                                <Text style={{color: '#F9BA32', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Trimite locatia</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View> : <View></View>}
+                        <View
+                            style={{
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                position: 'absolute',
+                                bottom: 25,
+                                right: 0,
+                                left: 0
+                            }}>
+                            <TouchableHighlight
+                                onPress={() => this.sendLocation()}
+                                style={styles.buttonContainer}>
+                                <View style={{flexDirection: 'row', marginTop: 7}}>
+                                    <Icon name="send" size={20} color="#F9BA32"/>
+                                    <Text style={{color: '#F9BA32', marginLeft: 10, fontSize: 20, fontWeight: 'bold'}}>Km/h: {this.state.speed_h}</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View> : <View></View>}
                     {/*endregion*/}
                 </View>
             );
