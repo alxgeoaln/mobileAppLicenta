@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     Dimensions,
-    Linking
+    Linking,
+    AppState
 } from 'react-native';
 import {connect} from 'react-redux';
 import Geocoder from 'react-native-geocoder';
@@ -14,6 +15,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {sendLocation} from '../actions';
+import PushController from '../pushNotification/PushController';
+import PushNotification from 'react-native-push-notification';
 
 const mapStyle = [
     {
@@ -232,7 +235,8 @@ class Map extends React.Component {
         loading: false,
         speed: null,
         speed_h: null,
-        maxSpeed: null
+        maxSpeed: null,
+        seconds: 5
     };
 
 
@@ -291,6 +295,7 @@ class Map extends React.Component {
 
 
     componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
         this.watchId = navigator.geolocation.watchPosition(
             (position) => {
                 console.log(position);
@@ -308,7 +313,24 @@ class Map extends React.Component {
     }
 
     componentWillUnmount() {
-        navigator.geolocation.clearWatch(this.watchId);
+        AppState.removeEventListener('change', this.handleAppStateChange);
+        // navigator.geolocation.clearWatch(this.watchId);
+    }
+
+    handleAppStateChange(appState) {
+        try {
+            if (appState === 'background') {
+                PushNotification.localNotificationSchedule({
+                    message: "My Notification Message", // (required)
+                    date: new Date(Date.now() + (5 * 1000)),
+                    actions: '["Yes", "No"]'
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+
     }
 
 
@@ -380,6 +402,7 @@ class Map extends React.Component {
                                 </View>
                             </TouchableHighlight>
                         </View> : <View></View>}
+                    <PushController/>
                     {/*endregion*/}
                 </View>
             );
