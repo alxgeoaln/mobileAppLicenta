@@ -280,16 +280,25 @@ class Map extends React.Component {
     }
 
     accident(speed_h) {
-        if (this.state.speed_h < speed_h) {
-            this.setState({
-                maxSpeed: speed_h
+        // if (this.state.speed_h < speed_h) {
+        //     this.setState({
+        //         maxSpeed: speed_h
+        //     });
+        // }
+        //
+        // const speedDiff = this.state.maxSpeed - this.state.speed_h;
+        //
+        // if (speedDiff === this.state.maxSpeed) {
+        //     this.sendLocation();
+        // }
+
+        if(speed_h >= 5) {
+            // this.sendLocation();
+            PushNotification.localNotificationSchedule({
+                message: "Accident?",
+                date: new Date(Date.now() + (5 * 1000)),
+                actions: '["Da", "Nu"]'
             });
-        }
-
-        const speedDiff = this.state.maxSpeed - this.state.speed_h;
-
-        if (speedDiff === this.state.maxSpeed) {
-            this.sendLocation();
         }
     }
 
@@ -321,9 +330,9 @@ class Map extends React.Component {
         try {
             if (appState === 'background') {
                 PushNotification.localNotificationSchedule({
-                    message: "My Notification Message", // (required)
+                    message: "Sugi pula?", // (required)
                     date: new Date(Date.now() + (5 * 1000)),
-                    actions: '["Yes", "No"]'
+                    actions: '["Da", "Nu"]'
                 });
             }
         } catch (e) {
